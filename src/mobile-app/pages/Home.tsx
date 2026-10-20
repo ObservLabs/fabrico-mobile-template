@@ -1,7 +1,9 @@
 import { useCallback, useState } from 'react';
 import { View, Text, Pressable, ActivityIndicator } from 'react-native';
 
-const APP_URL = process.env.EXPO_PUBLIC_APP_URL ?? 'http://localhost:8787';
+// The app's own URL, which also serves /api in development (Metro proxies it to the worker).
+// Empty on the published web build, so calls go to the same origin.
+const APP_URL = process.env.EXPO_PUBLIC_APP_URL ?? '';
 
 export default function Home() {
   const [message, setMessage] = useState<string | null>(null);

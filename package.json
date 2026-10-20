@@ -30,8 +30,10 @@
     "wrangler": "^4.135.0"
   },
   "scripts": {
-    "dev": "expo start",
+    "dev": "node scripts/dev.mjs",
     "start": "expo start",
+    "build": "expo export --platform web",
+    "check": "tsc --noEmit && expo export --platform web && wrangler deploy --dry-run",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",

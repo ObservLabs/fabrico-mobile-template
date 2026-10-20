@@ -57,18 +57,27 @@ npm install --legacy-peer-deps
 
 ### 3. Run the App
 
-Start the Expo development server:
+One command starts both the app and its API, behind a single port (8081):
 
 ```bash
-npm run start
-# Press 'i' to open in iOS Simulator, 'a' for Android, or scan the QR code with Expo Go.
+pnpm dev
+# Scan the QR code with Expo Go, or open http://localhost:8081 for the web version.
 ```
 
-Start the Cloudflare Worker backend (in a separate terminal):
+Metro serves the app and forwards every `/api/*` request to the Hono worker, which `wrangler dev`
+runs on port 8787 (see `metro.config.js` and `scripts/dev.mjs`). So `EXPO_PUBLIC_APP_URL` is the
+same URL for the app and its API:
 
-```bash
-npm run dev:worker
-```
+- web: `http://localhost:8081`
+- a phone in Expo Go: `http://<your computer's LAN IP>:8081` (a phone cannot reach `localhost`)
+
+Other scripts:
+
+| Script | What it does |
+|---|---|
+| `pnpm start` | Metro only (no API) |
+| `pnpm build` | `expo export --platform web` → `dist/`, which the worker serves when deployed |
+| `pnpm check` | type check, web build, then `wrangler deploy --dry-run` |
 
 ## 🎨 Styling with NativeWind
 
