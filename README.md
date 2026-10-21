@@ -65,16 +65,29 @@ pnpm dev
 ```
 
 Metro serves the app and forwards every `/api/*` request to the Hono worker, which `wrangler dev`
-runs on port 8787 (see `metro.config.js` and `scripts/dev.mjs`). So `EXPO_PUBLIC_APP_URL` is the
-same URL for the app and its API:
+runs on port 8787 (see `metro.config.js` and `scripts/dev.mjs`). Call the API with
+`apiUrl('/api/...')` from `src/mobile-app/lib/api.ts`: in development it uses whatever server the
+app was loaded from, so you don't configure a URL for the phone.
 
-- web: `http://localhost:8081`
-- a phone in Expo Go: `http://<your computer's LAN IP>:8081` (a phone cannot reach `localhost`)
+### Phone on another network: tunnel
+
+Your phone must be on the same Wi-Fi as your computer for `pnpm dev`. If it isn't (or the network
+blocks it), publish the dev server through an Expo tunnel:
+
+```bash
+pnpm dev:tunnel        # or: EXPO_TUNNEL=1 pnpm dev
+```
+
+Scan the new QR code: the phone reaches the app and its API through the tunnel. The tunnel URL is
+new every time, which is why the app finds its API from where it was loaded rather than from `.env`.
+Tunnels are slower than Wi-Fi; use them only when you need to. `@expo/ngrok` is installed with the
+project, so Expo never stops to ask for it.
 
 Other scripts:
 
 | Script | What it does |
 |---|---|
+| `pnpm dev:tunnel` | `pnpm dev`, reachable from any network through an Expo tunnel |
 | `pnpm start` | Metro only (no API) |
 | `pnpm build` | `expo export --platform web` → `dist/`, which the worker serves when deployed |
 | `pnpm check` | type check, web build, then `wrangler deploy --dry-run` |
