@@ -1,3 +1,52 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+ * Default tokens: the Fabrico palette (warm cream, brand brown #644a40, pale gold).
+ * "R G B" channels because React Native cannot read oklch(); dark mode follows the phone
+ * (app.json userInterfaceStyle "automatic"). Every text pair clears WCAG AA (4.5:1).
+ * A generated app replaces this file with its own theme (design-system, theme:<name>).
+ */
+@layer base {
+  :root {
+    --background: 250 249 247;
+    --foreground: 36 31 28;
+    --card: 253 252 251;
+    --card-foreground: 36 31 28;
+    --primary: 100 74 64;
+    --primary-foreground: 255 255 255;
+    --secondary: 255 223 181;
+    --secondary-foreground: 88 45 29;
+    --muted: 241 239 236;
+    --muted-foreground: 89 84 79;
+    --accent: 238 225 213;
+    --accent-foreground: 36 31 28;
+    --destructive: 215 63 31;
+    --destructive-foreground: 255 255 255;
+    --border: 190 182 173;
+    --input: 190 182 173;
+    --ring: 100 74 64;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background: 19 16 15;
+      --foreground: 240 238 235;
+      --card: 28 24 22;
+      --card-foreground: 240 238 235;
+      --primary: 255 224 194;
+      --primary-foreground: 32 19 13;
+      --secondary: 57 48 40;
+      --secondary-foreground: 255 224 194;
+      --muted: 36 33 31;
+      --muted-foreground: 163 157 152;
+      --accent: 47 41 36;
+      --accent-foreground: 240 238 235;
+      --destructive: 215 63 31;
+      --destructive-foreground: 255 255 255;
+      --border: 83 69 54;
+      --input: 83 69 54;
+      --ring: 255 224 194;
+    }
+  }
+}
