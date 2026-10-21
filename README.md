@@ -83,6 +83,15 @@ new every time, which is why the app finds its API from where it was loaded rath
 Tunnels are slower than Wi-Fi; use them only when you need to. `@expo/ngrok` is installed with the
 project, so Expo never stops to ask for it.
 
+Security, while a tunnel is open:
+
+- The tunnel URL is public and has no password: anyone who has it can open the app and call its API.
+  Stop `pnpm dev:tunnel` when you are done, and never put a secret in an `EXPO_PUBLIC_*` variable.
+- API calls (they carry the session token) always go over **https** through the tunnel:
+  `src/mobile-app/lib/api.ts` only allows plain http to private network addresses.
+- Expo itself serves the JavaScript bundle to Expo Go over **http** through the tunnel. Prefer the
+  Wi-Fi setup on networks you don't trust.
+
 Other scripts:
 
 | Script | What it does |
