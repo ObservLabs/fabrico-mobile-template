@@ -3,6 +3,7 @@
 // in Expo Go all use http(s)://<host>:8081 for both the app and its API.
 import { spawn } from "node:child_process";
 import { mkdirSync } from "node:fs";
+import { delimiter, join } from "node:path";
 
 const WORKER_PORT = process.env.WORKER_PORT ?? "8787";
 const METRO_PORT = process.env.METRO_PORT ?? "8081";
@@ -11,7 +12,13 @@ const METRO_PORT = process.env.METRO_PORT ?? "8081";
 // In development the app itself comes from Metro, so an empty folder is enough.
 mkdirSync("dist", { recursive: true });
 
-const env = { ...process.env, WORKER_PORT };
+// The project's own wrangler/expo, also when this script is run with plain `node` rather than
+// `pnpm dev` (which is what puts node_modules/.bin on PATH).
+const env = {
+  ...process.env,
+  WORKER_PORT,
+  PATH: [join(process.cwd(), "node_modules", ".bin"), process.env.PATH].filter(Boolean).join(delimiter),
+};
 const run = (cmd, args) => spawn(cmd, args, { stdio: "inherit", shell: true, env });
 
 const worker = run("wrangler", ["dev", "--port", WORKER_PORT, "--ip", "127.0.0.1"]);
