@@ -33,8 +33,12 @@ yarn-error.*
 .DS_Store
 *.pem
 
-# local env files
-.env*.local
+# local env files — never committed. The Fabrico sandbox writes the worker's secrets
+# (FABRICO_API_TOKEN…) to .dev.vars and the app's EXPO_PUBLIC_* values to .env; this repo is
+# pushed to the user's GitHub. Same rules as the web template.
+.env*
+.dev.vars*
+!.dev.vars.example
 
 # typescript
 *.tsbuildinfo
